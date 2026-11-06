@@ -1,0 +1,21 @@
+---
+// "/" sends visitors to /contact, as the Angular app did. It is its own page (rather than
+// an Astro redirect) because Mastodon verifies the profile link by fetching this URL, does
+// not follow meta-refresh redirects, and so needs the rel="me" link right here.
+import { contact } from '../data/site';
+const target = '/contact';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Resume - {contact.name}</title>
+    <link rel="icon" type="image/png" href="/img/favicon.png" />
+    <link rel="me" href={contact.mastodonURL} />
+    <link rel="canonical" href={new URL(target, Astro.site)} />
+    <meta http-equiv="refresh" content={`0;url=${target}`} />
+  </head>
+  <body>
+    <a href={target}>Continue to the resume</a>
+  </body>
+</html>

@@ -1,0 +1,49 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { contact } from '../data/site';
+
+const rows = [
+  { icon: 'envelope-fill', href: contact.emailURL, text: contact.emailAddr },
+  { icon: 'telephone-fill', href: contact.mobilePhoneURL, text: contact.mobilePhone },
+  { icon: 'github', href: contact.githubURL, text: contact.githubURL, external: true },
+  { icon: 'linkedin', href: contact.linkedInURL, text: contact.linkedInURL, external: true },
+  { icon: 'mastodon', href: contact.mastodonURL, text: contact.mastodonURL, external: true, me: true },
+];
+---
+<Layout active="contact">
+  <div class="text-center">
+    <h3>{contact.name}</h3>
+  </div>
+  <div class="text-center">
+    <img class="avatar" src="/img/avatar-photo-400x400.jpg" alt="Photo of Warren Gallagher" />
+    <div class="row justify-content-center">
+      <div class="col-auto">
+        <table>
+          <tbody>
+            {rows.map((r) => (
+              <tr>
+                <td><i class={`bi bi-${r.icon}`}></i></td>
+                <td class="text-start ps-2">
+                  <a
+                    href={r.href}
+                    target={r.external ? '_blank' : undefined}
+                    rel={r.me ? 'me' : undefined}
+                  >{r.text}</a>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .avatar {
+    object-fit: cover;
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+  }
+</style>

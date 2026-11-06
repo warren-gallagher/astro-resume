@@ -1,0 +1,17 @@
+{
+  "contact": {
+    "name": "Warren Gallagher",
+    "linkedInURL": "https://ca.linkedin.com/pub/warren-gallagher/0/3b/18a",
+    "githubURL": "https://github.com/warren-gallagher?tab=repositories/",
+    "emailURL": "mailto:warren@gallaghers.ca?subject=Resume Inquiry",
+    "mastodonURL": "https://cosocial.ca/@WarrenGallagher",
+    "emailAddr": "warren@gallaghers.ca",
+    "mobilePhone": "613.791.4987",
+    "mobilePhoneURL": "tel:613.791.4987"
+  },
+  "config": {
+    "copyright": "Copyright © Warren Gallagher 2024, all rights reserved.",
+    "deploymentURL": "https://resume.gallaghers.ca",
+    "repositoryURL": "https://github.com/warren-gallagher/astro-resume/"
+  }
+}

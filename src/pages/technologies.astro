@@ -1,0 +1,25 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Accordion from '../components/Accordion.astro';
+import AccordionItem from '../components/AccordionItem.astro';
+import { render } from 'astro:content';
+import { contact } from '../data/site';
+import { getTechnologies } from '../data/content';
+
+const entries = await getTechnologies();
+const items = await Promise.all(
+  entries.map(async (t) => ({ ...t.data, Content: (await render(t)).Content })),
+);
+---
+<Layout active="technologies">
+  <div class="text-center">
+    <h3>{contact.name} - Technology</h3>
+  </div>
+  <Accordion id="technologies">
+    {items.map((t, i) => (
+      <AccordionItem parentId="technologies" index={i} title={t.category}>
+        <t.Content />
+      </AccordionItem>
+    ))}
+  </Accordion>
+</Layout>

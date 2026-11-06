@@ -1,0 +1,13 @@
+---
+// Bootstrap accordion; items opened one at a time (see AccordionItem's data-bs-parent).
+interface Props {
+  id: string;
+}
+const { id } = Astro.props;
+---
+<div class="accordion" id={id}>
+  <slot />
+</div>
+<noscript>
+  <style>.accordion-collapse { display: block !important; }</style>
+</noscript>

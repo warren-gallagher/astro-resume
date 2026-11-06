@@ -1,0 +1,25 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Accordion from '../components/Accordion.astro';
+import AccordionItem from '../components/AccordionItem.astro';
+import { render } from 'astro:content';
+import { contact } from '../data/site';
+import { getExperience } from '../data/content';
+
+const entries = await getExperience();
+const items = await Promise.all(
+  entries.map(async (e) => ({ ...e.data, Content: (await render(e)).Content })),
+);
+---
+<Layout active="experience">
+  <div class="text-center">
+    <h3>{contact.name} - Experience</h3>
+  </div>
+  <Accordion id="experience">
+    {items.map((e, i) => (
+      <AccordionItem parentId="experience" index={i} title={`${e.company} : ${e.title} : ${e.duration}`}>
+        <e.Content />
+      </AccordionItem>
+    ))}
+  </Accordion>
+</Layout>

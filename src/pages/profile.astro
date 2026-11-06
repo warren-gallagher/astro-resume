@@ -1,0 +1,13 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { contact } from '../data/site';
+import { getProfile } from '../data/content';
+
+const { Content } = await getProfile();
+---
+<Layout active="profile">
+  <div class="text-center">
+    <h3>{contact.name} - Profile</h3>
+    <Content />
+  </div>
+</Layout>

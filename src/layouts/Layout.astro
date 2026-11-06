@@ -1,0 +1,67 @@
+---
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap-icons/font/bootstrap-icons.min.css';
+import { contact } from '../data/site';
+
+interface Props {
+  active?: string;
+}
+const { active = '' } = Astro.props;
+
+const nav = [
+  { id: 'contact', href: '/contact', label: 'Contact' },
+  { id: 'profile', href: '/profile', label: 'Profile' },
+  { id: 'experience', href: '/experience', label: 'Experience' },
+  { id: 'technologies', href: '/technologies', label: 'Technologies' },
+  { id: 'print', href: '/print', label: 'Print' },
+];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Resume - {contact.name}</title>
+    <link rel="icon" type="image/png" href="/img/favicon.png" />
+    <!-- Mastodon profile verification: must be in the static HTML (Mastodon does not run JS). -->
+    <link rel="me" href={contact.mastodonURL} />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary d-print-none">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/contact">{contact.name}</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarContent"
+          aria-controls="navbarContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >&#9776;</button>
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <ul class="nav navbar-nav justify-content-end">
+            {nav.map((n) => (
+              <li class="nav-item">
+                <a class:list={['nav-link', { active: active === n.id }]} href={n.href}>{n.label}</a>
+              </li>
+            ))}
+            <li class="nav-item">
+              <a class:list={['nav-link', { active: active === 'about' }]} href="/about" aria-label="About">
+                <i class="bi bi-info-circle"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <slot />
+    </div>
+
+    <script>
+      import 'bootstrap/js/dist/collapse';
+    </script>
+  </body>
+</html>

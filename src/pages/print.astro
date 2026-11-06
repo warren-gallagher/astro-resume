@@ -1,0 +1,69 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { render } from 'astro:content';
+import { contact, config } from '../data/site';
+import { getProfile, getExperience, getTechnologies } from '../data/content';
+
+const { Content: Profile } = await getProfile();
+const experience = await Promise.all(
+  (await getExperience()).map(async (e) => ({ ...e.data, Content: (await render(e)).Content })),
+);
+const technologies = await Promise.all(
+  (await getTechnologies()).map(async (t) => ({ ...t.data, Content: (await render(t)).Content })),
+);
+---
+<Layout active="print">
+  <div id="printable-area" class="pt-2">
+    <div class="container-fluid">
+      <h4 class="text-primary text-center">{contact.name}</h4>
+      <div class="container-fluid">
+        <div class="font-size-xs text-center">
+          <img class="avatar" alt="Photo of Warren Gallagher" src="/img/avatar-photo-400x400.jpg" />
+          <div class="pt-2"><i class="bi bi-envelope-fill"></i><span class="ps-2">{contact.emailAddr}</span></div>
+          <div class="pt-2"><i class="bi bi-telephone-fill"></i><span class="ps-2">{contact.mobilePhone}</span></div>
+          <div class="pt-2"><i class="bi bi-linkedin"></i><span class="ps-2">{contact.linkedInURL}</span></div>
+          <div class="pt-2"><i class="bi bi-github"></i><span class="ps-2">{contact.githubURL}</span></div>
+        </div>
+      </div>
+
+      <h5 class="pt-2 text-primary underline text-center"><u>Profile</u></h5>
+      <div class="container-fluid"><div class="font-size-xs"><Profile /></div></div>
+
+      <h5 class="text-primary underline text-center"><u>Experience</u></h5>
+      {experience.map((e) => (
+        <div>
+          <h6 class="text-primary">{e.company} - {e.title} : {e.duration}</h6>
+          <div class="container-fluid"><div class="font-size-xs"><e.Content /></div></div>
+        </div>
+      ))}
+
+      <h5 class="text-primary underline text-center"><u>Technologies</u></h5>
+      {technologies.map((t) => (
+        <div>
+          <h6 class="text-primary">{t.category}</h6>
+          <div class="container-fluid"><div class="font-size-xs"><t.Content /></div></div>
+        </div>
+      ))}
+
+      <p class="text-center font-size-xs">Printable Resume generated from interactive resume web site at {config.deploymentURL}</p>
+      <p class="text-center font-size-xs"><i class="bi bi-github"></i> repository available at {config.repositoryURL}</p>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  // The original app opened the print dialog as soon as this page loaded.
+  window.print();
+</script>
+
+<style>
+  .font-size-xs {
+    font-size: x-small;
+  }
+  .avatar {
+    object-fit: cover;
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+  }
+</style>
